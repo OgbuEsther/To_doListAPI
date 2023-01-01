@@ -104,4 +104,29 @@ const update = async (req: Request, res: Response): Promise<Response> => {
   }
 };
 
+const updateOne = async (req: Request, res: Response): Promise<Response> => {
+  try {
+    const { title, status, desc } = req.body;
+    const list = await theModel.findByIdAndUpdate(
+      req.params.id,
+      {
+        title,
+        status,
+        desc,
+      },
+      {
+        new: true,
+      }
+    );
+    return res.status(200).json({
+      message: "updated successfully",
+      data: list,
+    });
+  } catch (error) {
+    return res.status(400).json({
+      message: "an error occurred",
+      data: error,
+    });
+  }
+};
 export { getAll, removeOne, postTasks, oneGet, update };
